@@ -31,10 +31,10 @@
 #+HTML_HEAD: .definition:before {content: "Definition: "; font-style: italic; font-weight: bold}</style>
 
 * Basic information
-** Author: Jianbin Qin
-** Version: 0.1
-** Contact: jqin@inf.ed.ac.uk
-** More information: http://qinjianibn.com/
+  Author: Jianbin Qin
+  Version: 0.1
+  Contact: jqin@inf.ed.ac.uk
+  More information: http://qinjianibn.com/
 
 
 * Overview of Programs
