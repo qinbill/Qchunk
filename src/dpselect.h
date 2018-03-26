@@ -12,12 +12,8 @@
 int dynamic_select_probe_tokens(int *costs, int costlen, 
                                 int *sel_pos, int tau, int q);
 
-
-
 int dynamic_select_probe_tokens_with_poss(int *costs, int *poss, int costlen, 
                                           int *sel_pos, int tau, int q);
-
-
 
 /* Init the select accessory data structrue */
 int dynamic_select_init(int toknum, int tau);

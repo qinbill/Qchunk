@@ -6,7 +6,7 @@
 #define INF 1 << 30
 #define EPS 1e-8
 #define MAX_STRING_SIZE 150*1024*1024
-#define MAX_DOC_NUM 10*512*1024
+#define MAX_DOC_NUM 3*1024*1024
 #define MAX_DOC_LEN 10*1024
 //#define PRIME 11999983
 #define ELEM_NUM PRIME + 100

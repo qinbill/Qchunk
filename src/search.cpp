@@ -37,7 +37,7 @@ void print_usage(){
   fprintf(stderr, "       -i <input file name>      :input binary file prefix\n");
   fprintf(stderr, "       -G Use Algoritm indexGramSuper (Default)\n");
   fprintf(stderr, "       -C Use Algoritm indexChunkSuper \n");  
-  fprintf(stderr, "       -g Use Algoritm indexGramTurbo (Default)\n");
+  fprintf(stderr, "       -g Use Algoritm indexGramTurbo  \n");
   fprintf(stderr, "       -c Use Algoritm indexChunkTurbo \n");
   fprintf(stderr, "       -b Use Algoritm indexChunkTurbine \n");
   print_version();
@@ -76,14 +76,13 @@ void indexGramSuperSearch(FILE *fp, raw_data_t *rp, index_t *ip, query_t *qp, in
 
 
 void indexChunkSuperSearch(FILE *fp, raw_data_t *rp, index_t *ip, query_t *qp, int tau)
-{  
-  int l;  
+{
+  int l;
   char linebuf[MAX_DOC_LEN + 128];
   memset(linebuf, PREFIX_PATCH_CHAR, rp->raw_q);
   char *line = linebuf + rp->raw_q;
   int llen;
   int *problist;
-  
 
   for (int i = 0; i < qp->max_len; i++)
     qp->probe_pos[i] = i;
@@ -91,25 +90,15 @@ void indexChunkSuperSearch(FILE *fp, raw_data_t *rp, index_t *ip, query_t *qp, i
   problist = qp->probe_tokens;
   qp->probe_tokens = qp->token_id_list;
 
-  while (fgets(line, MAX_DOC_LEN, fp)){    
+  while (fgets(line, MAX_DOC_LEN, fp)){
     l = strlen(line);
     if (l == 0) continue;
     while ( line[l-1] == '\n' || line[l-1] == '\r' ){ line[--l] = '\0';}
     llen = l;
-    queryNum ++;    
-    //setup_query_krhash(qp, line, llen, rp, tau);
-    // if (setup_query_krhash(qp, line, llen, rp, tau) == 0){
-    //   underflowNum++;
-    //   continue;
-    // }
+    queryNum ++;
 
-    // cal_probe_cost(qp, ip);
-    // qp->probe_num = qp -> token_num;
-    
     if(indexChunkSuperQueryPreprocessing(line, llen, rp, ip, qp, tau)<=0)
       continue;
-    
-    
     candNum += probing_qgrams_length(rp, qp, ip);
     resultNum += filter_verify(rp, qp);    
   }
@@ -117,18 +106,9 @@ void indexChunkSuperSearch(FILE *fp, raw_data_t *rp, index_t *ip, query_t *qp, i
   return;  
 }
 
-
-
-
-
-
-
-
-
-
 void indexGramTurboSearch(FILE *fp, raw_data_t *rp, index_t *ip, query_t *qp, int tau)
-{  
-  int l;  
+{
+  int l;
   char linebuf[MAX_DOC_LEN + 128];
   memset(linebuf, PREFIX_PATCH_CHAR, rp->raw_q);
   char *line = linebuf + rp->raw_q;
@@ -142,13 +122,7 @@ void indexGramTurboSearch(FILE *fp, raw_data_t *rp, index_t *ip, query_t *qp, in
     while ( line[l-1] == '\n' || line[l-1] == '\r' ){ line[--l] = '\0';}
     llen = l;
     queryNum ++;
-    // //setup_query_krhash(qp, line, llen, rp, tau);
-    // if (setup_query_krhash(qp, line, llen, rp, tau) == 0){
-    //   underflowNum++;
-    //   continue;
-    // }
 
-    // cal_prefix_cost(qp, ip, tau, rp->raw_q);
     if(indexGramTurboQueryPreprocessing(line, llen, rp, ip, qp, tau)<=0)
       continue;        
     candNum += probing_qgrams_length(rp, qp, ip);

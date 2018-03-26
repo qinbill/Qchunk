@@ -1,0 +1,117 @@
+#+title: Qchunk similarity search source code
+#+options: toc:t 
+
+# #+options: tex:imagemagick
+#+property: cache yes
+#+property: exports results
+
+#+LATEX_COMPILER: xelatex
+
+#+LATEX_HEADER: \usepackage{tikz}
+#+latex_header: \usepackage{amsthm}
+#+latex_header: \newtheorem{theorem}{Theorem}
+#+latex_header: \newtheorem{definition}{Definition}
+
+#+latex_header: \usepackage{fontspec}
+#+latex_header: \setromanfont{Purisa}
+#+latex_header: \setsansfont{Verdana}
+#+latex_header: \setmonofont{Ubuntu Mono}
+
+#+LaTeX_HEADER: \hypersetup{colorlinks=true, linkcolor=blue}
+
+#+latex_header: \usepackage{makeidx}
+#+latex_header: \makeindex
+
+#+latex_header: \usepackage{listings}
+
+# see http://www.w3schools.com/css/css_font.asp for more info
+#+HTML_HEAD: <style>.theorem {font-size: 1.5em; color: green; font-family: arial; text-decoration:underline;}
+#+HTML_HEAD: .theorem:before {content: "Theorem: "; font-weight: bold}</style>
+#+HTML_HEAD: <style>.definition {}
+#+HTML_HEAD: .definition:before {content: "Definition: "; font-style: italic; font-weight: bold}</style>
+
+* Basic information
+** Author: Jianbin Qin
+** Version: 0.1
+** Contact: jqin@inf.ed.ac.uk
+** More information: http://qinjianibn.com/
+
+
+* Overview of Programs
+
+** Related Papers
+   a)  Jianbin Qin, Wei Wang, Yifei Lu, Chuan Xiao, Xuemin Lin. Efficient Exact Edit Similarity Query Processing with Asymmetric Signature Schemes. SIGMOD 2011.
+   b)  Chuan Xiao, Wei Wang, Xuemin Lin, Jeffrey Xu Yu: Efficient Similarity Joins For Near Duplicate Detection. WWW 2008: 131-140.
+   c)  Chuan Xiao, Wei Wang, Xuemin Lin: Ed-Join: An Efficient Algorithm for Similarity Join with Edit Distance Constraints. VLDB 2008.
+   d)  Roberto J. Bayardo, Yiming Ma, Ramakrishnan Srikant: Scaling up all pairs similarity search. WWW 2007: 131-140.
+
+
+** Executables
+   
+   Program Name		Description
+   * preproc      Preprocess the text file and output a index. 
+   * search       Perform the search queries. 
+
+* Package Manual
+** Installation 
+   * code, say
+   #+begin_src bash
+   $ git clone https://github.com/qinbill/Qchunk.git
+   $ cd Qchunk/src/
+   $ make
+  #+end_src
+
+** Preprocessing
+   The preprocessing dose three things:
+   1. Sort the input data.
+   2. Generate qchunk/qgram set.
+   3. Calculate statistics.
+   
+   Usage:
+   #+begin_src bash
+   $ cat <textfile> | ./preproc -o <output_prefix> -q <qgram size> 
+   #+end_src
+
+   The process will genearte a set of files that named with <output_prefix> 
+   
+** Query processing
+   The query processing part takes input text from standard input. 
+   Usage:
+   #+begin_src bash
+   $ cat <query_file> | ./search -i <input_prefix> -t <threshold> -c/G/C/g/b
+   
+   $ ./search -h
+   Need input file name
+   usage: -t <Max Edit Distance>    :Edit distance threshold for index building.>
+       -i <input file name>      :input binary file prefix
+       -G Use Algoritm indexGramSuper
+       -C Use Algoritm indexChunkSuper 
+       -g Use Algoritm indexGramTurbo (Default)
+       -c Use Algoritm indexChunkTurbo 
+       -b Use Algoritm indexChunkTurbine 
+   #+end_src
+
+** Result interpretation:
+
+   #+begin_src bash   
+   # Q: 8       // Length of Q
+   # Tau: 5     // The threshold.
+   # DataDucNum: 2000000  // Number of data.
+   # DataUnderflow: 0     // Number of data dumped because length less that Q*tau+1
+   # IndexedTokenNum: 284771740  // Unique indexed token number
+   # SkipListNum: 0           // Use skip list size. 
+   # QueryNum: 1000     // Number of queries.      
+   # UderflowQuery: 0    // Number of queries is too short. 
+   # CandOneNum: 2710686   // Number of Candidate one. Just past prefix filtering.
+   # FinalResultsNum: 3618  // Number of results. 
+   # IndexTotalTime: 17.862824   // Time used in indexing. 
+   # SearchTotalTime: 2.907339
+   #+end_src
+
+
+Last Modified: <2018-03-26 Mon> by Jianbin Qin
+
+
+
+
+

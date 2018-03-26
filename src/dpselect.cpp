@@ -11,8 +11,6 @@ static uint **dyn_table = NULL;
 static uint **dyn_path = NULL;
 static int dyn_size;
 
-
-
 int dynamic_select_init(int toknum, int tau)
 {
   if (dyn_table == NULL){
@@ -26,8 +24,6 @@ int dynamic_select_init(int toknum, int tau)
   }
   return 0;
 }
-
-
 
 // Select the tokens for probing.
 int dynamic_select_probe_tokens(int *costs, int costlen, 
@@ -119,11 +115,11 @@ int dynamic_select_probe_tokens_with_poss(int *costs, int *poss, int costlen,
                                 int *sel_pos, int tau, int q)
 {
   int tkn = costlen;
-  uint inf;;
-  int gaps[1024];
-  //  int min;  
+  uint inf;
+  long long gaps[1024*2];
+  //  int min;
   gaps[0] = -1;
-  
+
   /* Setup memory for dyn table */
   for (int i = 1; i <= tau + 1; i ++){
     memset(dyn_table[i], 128,  sizeof(int) * tkn);
@@ -144,7 +140,7 @@ int dynamic_select_probe_tokens_with_poss(int *costs, int *poss, int costlen,
   }
 
   // Need to fix this part.
-  for (int i = 1; i < tkn; i ++){    
+  for (int i = 1; i < tkn; i ++){
     int k = i - 1;
     while ( k>=0 && poss[i] - poss[k] < q)
       k--;
@@ -161,19 +157,18 @@ int dynamic_select_probe_tokens_with_poss(int *costs, int *poss, int costlen,
       if (dyn_table[j][i] >= inf)
         break;
     }
-  }  
+  }
 
   if (dyn_table[tau+1][tkn-1] >= inf)
     return 0;                   // Underflow
 
   /* Now let's select it */
-  int ppath = dyn_path[tau+1][tkn-1];
+  long long ppath = dyn_path[tau+1][tkn-1];
   for (int i = tau + 1; i >=1; i --)
   {
     sel_pos[i-1] = ppath;
     ppath = dyn_path[i-1][ppath-gaps[ppath]];
   }
-
 
 // //#ifdef DEBUG
 //   fprintf(stderr, "\n Cost list-> ");

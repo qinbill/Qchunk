@@ -4,8 +4,8 @@
 ##############
 
 PROD	:= PROD
-OPT     := -O3 # -pg
-VERSION := \"1.0_${PROD}\"
+OPT     := -O0 # -pg
+VERSION := \"0.1_${PROD}\"
 TARGETS := preproc search
 DEFINES := #-DREAL_PROF
 SRCS    := bitset.cpp preproc.cpp verify.cpp search.cpp qgrams.cpp hashmap.cpp rawdata.cpp indexer.cpp prober.cpp querier.cpp basichist.cpp dpselect.cpp sorting.cpp usage.cpp

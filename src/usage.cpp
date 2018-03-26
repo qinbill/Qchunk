@@ -44,8 +44,6 @@ void StatUsage(usage_timer_t *up)
 
 void ShowUsage(usage_timer_t *up, const char *Prefix, FILE* fp)
 {
-  fprintf(fp,"%sTotalTime: %ld.%06ld\n%sSystemTime: %ld.%06ld\n%sUserTime: %ld.%06ld\n",
-          Prefix, up->elapse_time_sec, up->elapse_time_usec,
-          Prefix, up->sys_time_sec, up->sys_time_usec,
-          Prefix, up->user_time_sec, up->user_time_usec);
+  fprintf(fp,"%sTotalTime: %ld.%06ld\n",
+          Prefix, up->elapse_time_sec, up->elapse_time_usec);
 }
