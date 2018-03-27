@@ -1,10 +1,13 @@
 #include <math.h>
+#include <stdlib.h>
 #include "verify.h"
 #include "header.h"
 
 
 static int mat[2][MAX_DOC_LEN + 1];
+#define min(a,b)  ((a < b) ? a : b)
 
+int matrix[MAX_DOC_LEN][MAX_DOC_LEN];
 
 int edit_distance(int xlen, char *xstr, int ylen, char *ystr, int tau)
 {  
@@ -18,7 +21,12 @@ int edit_distance(int xlen, char *xstr, int ylen, char *ystr, int tau)
   char *y = ystr;
   int lx = xlen;
   int ly = ylen;
-  
+
+  if (ED_Verify_RTL(lx, x, ly, y, tau )){
+    return 0;
+  }else
+    return tau+1;
+
   for (i = 0; i <= tau; i++) 
     mat[0][ly - i] = i;
   
@@ -36,6 +44,31 @@ int edit_distance(int xlen, char *xstr, int ylen, char *ystr, int tau)
   }
   ans = valid ? mat[!row][0] : tau + 1;
   return ans;
+}
+
+bool ED_Verify_RTL(int xlen, char *record, int ylen, char *query, int Tau) {
+  int right = (Tau + (ylen - xlen)) / 2;
+  int left = (Tau - (ylen - xlen)) / 2;
+  int D=Tau;
+  for (int i = 1; i <= xlen; i++) {
+    bool valid = 0;
+    if (i <= left) {
+      matrix[i][D - i] = i;
+      valid = 1;
+    }
+    for (int j = (i - left >= 1 ? i - left : 1);
+         j <= (i + right <= ylen ? i + right : ylen); j++) {
+      if (record[i - 1] == query[j - 1])
+        matrix[i][j - i + D] = matrix[i - 1][j - i + D];
+      else
+        matrix[i][j - i + D] = MIN3(matrix[i - 1][j - i + D],
+                                   j - 1 >= i - left ? matrix[i][j - i + D - 1] : D,
+                                   j + 1 <= i + right ? matrix[i - 1][j - i + D + 1] : D) + 1;
+      if (abs(xlen - ylen - i + j) + matrix[i][j - i + D] <= Tau) valid = 1;
+    }
+    if (!valid) return false;
+  }
+  return matrix[xlen][ylen - xlen + D] <= Tau;
 }
 
 

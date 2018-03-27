@@ -11,6 +11,12 @@
 /* given threshold */
 int edit_distance(int xlen, char *xstr, int ylen, char *ystr, int tau);
 
+/* Faster verification from Pivotal */
+
+//extern int matrix;
+
+bool ED_Verify_RTL(int xlen, char *record, int ylen, char *query, int Tau);
+
 #ifdef REAL_PROF
 int edit_distance_real(int xlen, char *xstr, int ylen, char *ystr, int tau);
 #endif
