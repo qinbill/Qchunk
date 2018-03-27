@@ -35,10 +35,10 @@ int dynamic_select_probe_tokens(int *costs, int costlen,
 
   if ( costlen < q * tau + 1)
     return 0;                   // Underflow.
-  
+
   /* Setup memory for dyn table */
   for (int i = 1; i <= tau + 1; i ++)
-  {    
+  {
     memset(dyn_table[i], 128,  sizeof(int) * tkn);
   }
   inf = dyn_table[1][0];
@@ -56,14 +56,14 @@ int dynamic_select_probe_tokens(int *costs, int costlen,
       dyn_path[1][i] = i;
     }
   }
-  
+
   for (int i = q; i < tkn; i ++)
   {
     for (int j = 2; j <= tau + 1; j++)
     {
       if (dyn_table[j][i-1] <= dyn_table[j-1][i-q] + costs[i])
-      {        
-        dyn_table[j][i] = dyn_table[j][i-1];        
+      {
+        dyn_table[j][i] = dyn_table[j][i-1];
         dyn_path[j][i] = dyn_path[j][i-1];
       }else{
         dyn_table[j][i] = dyn_table[j-1][i-q] + costs[i];
@@ -72,7 +72,7 @@ int dynamic_select_probe_tokens(int *costs, int costlen,
       if (dyn_table[j][i] >= inf)
         break;
     }
-  }  
+  }
 
   /* Now let's select it */
   int ppath = dyn_path[tau+1][tkn-1];
@@ -166,6 +166,7 @@ int dynamic_select_probe_tokens_with_poss(int *costs, int *poss, int costlen,
   long long ppath = dyn_path[tau+1][tkn-1];
   for (int i = tau + 1; i >=1; i --)
   {
+    if (ppath >  tkn) return 0;
     sel_pos[i-1] = ppath;
     ppath = dyn_path[i-1][ppath-gaps[ppath]];
   }

@@ -4,7 +4,7 @@
 ##############
 
 PROD	:= PROD
-OPT     := -O0 # -pg
+OPT     := -O3 # -pg
 VERSION := \"0.1_${PROD}\"
 TARGETS := preproc search
 DEFINES := #-DREAL_PROF
