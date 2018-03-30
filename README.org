@@ -31,7 +31,7 @@
 #+HTML_HEAD: .definition:before {content: "Definition: "; font-style: italic; font-weight: bold}</style>
 
 * Basic information
-  * Source Code Author: Jianbin Qin
+  * Source code author: Jianbin Qin
   * Version: 0.1
   * Contact: jqin@inf.ed.ac.uk
   * More information: http://qinjianibn.com/
@@ -40,7 +40,11 @@
 
 * Introduction:
 ** Verdict: 
-   This work pionerred the trend of using Q-Chunk, fixed length non-overlapping gram, as the signatures(features) to perform efficient string similarity query processing. The fixed length non-overlapping scheme has been proven effective by researchers. In SIGMOD version, we only studied the basis IndexChunk and IndexGram. In the Journal version, we further improve this IndexChunk and IndexGram to Turbo and Super charged version by constraint the QChunk selection space. Super charged indexGram is the default version in this source code. 
+   This work pionerred the trend of using Q-Chunk, fixed length non-overlapping gram, as the signatures (features) generator to perform efficient string similarity query processing. The fixed length non-overlapping scheme has been proven effective by many researchers. 
+   There are two versions of QChunk papers and six versions of algorithms:
+   * In SIGMOD version, we only studied the basis IndexChunk and IndexGram. 
+   * In the Journal version, we further improve this IndexChunk and IndexGram to Turbo and Super charged version by constraint the QChunk selection space. 
+   * Super charged IndexGram is the default version in this source code. Please compare this version, i.e. IndexGramSuper 
 
 ** Journel Version:
   * Title: Asymmetric signature schemes for efficient exact edit similarity query processing
@@ -85,7 +89,6 @@
    b)  Chuan Xiao, Wei Wang, Xuemin Lin, Jeffrey Xu Yu: Efficient Similarity Joins For Near Duplicate Detection. WWW 2008: 131-140.
    c)  Chuan Xiao, Wei Wang, Xuemin Lin: Ed-Join: An Efficient Algorithm for Similarity Join with Edit Distance Constraints. VLDB 2008.
    d)  Roberto J. Bayardo, Yiming Ma, Ramakrishnan Srikant: Scaling up all pairs similarity search. WWW 2007: 131-140.
-
 
 * Package Manual
 ** Installation 
