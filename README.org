@@ -34,7 +34,7 @@
   * Source code author: Jianbin Qin
   * Version: 0.1
   * Contact: jqin@inf.ed.ac.uk
-  * More information: http://qinjianibn.com/
+  * More information: http://qinjianbin.com/
 
 * Introduction:
 ** Verdict: 
